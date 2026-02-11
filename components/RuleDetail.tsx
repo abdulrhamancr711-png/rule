@@ -13,6 +13,11 @@ const RuleDetail: React.FC<RuleDetailProps> = ({ rule, onBack }) => {
     window.scrollTo(0, 0);
   }, [rule]);
 
+  const handleYoutubeSearch = () => {
+    const query = encodeURIComponent(`English grammar ${rule.title} explanation best lesson`);
+    window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
+  };
+
   return (
     <div className="max-w-4xl mx-auto pb-20">
       <button
@@ -75,49 +80,38 @@ const RuleDetail: React.FC<RuleDetailProps> = ({ rule, onBack }) => {
             </div>
           </section>
 
-          {/* Video Lessons Section - Updated to Links with Thumbnails */}
-          <section>
-            <h3 className="text-2xl font-black text-gray-900 mb-8 border-l-4 border-indigo-600 pl-4">Video Lessons</h3>
-            <p className="text-gray-500 mb-8 font-medium">Click on a lesson below to watch the full explanation on YouTube.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {rule.videos.map((video, vIndex) => (
-                <a 
-                  key={vIndex} 
-                  href={`https://www.youtube.com/watch?v=${video.youtubeId}`} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="group block space-y-4"
-                >
-                  <div className="relative aspect-video w-full rounded-3xl overflow-hidden shadow-lg bg-gray-100 border border-gray-100 transition-transform group-hover:scale-[1.02] active:scale-[0.98]">
-                    {/* YouTube Thumbnail Fallback */}
-                    <img 
-                      src={`https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`} 
-                      alt={video.title}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`;
-                      }}
-                    />
-                    {/* Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/0 transition-colors">
-                      <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center text-white shadow-2xl group-hover:bg-red-700 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-start justify-between gap-4 px-2">
-                    <p className="font-black text-gray-800 leading-tight group-hover:text-indigo-600 transition-colors">{video.title}</p>
-                    <div className="shrink-0 text-indigo-600 font-bold text-sm flex items-center gap-1">
-                      <span>Watch</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                      </svg>
-                    </div>
-                  </div>
-                </a>
-              ))}
+          {/* New Smart Video Discovery Section */}
+          <section className="bg-red-50 rounded-[2.5rem] p-8 md:p-12 border border-red-100 shadow-sm relative overflow-hidden group">
+            <div className="absolute top-0 right-0 -mt-4 -mr-4 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-700">
+               <svg className="w-64 h-64 text-red-600" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+            </div>
+            
+            <div className="relative z-10 flex flex-col items-center text-center space-y-6">
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-red-600 shadow-xl mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <h3 className="text-3xl font-black text-gray-900 leading-tight">Master {rule.title} with Videos</h3>
+              <p className="text-gray-600 max-w-lg font-medium">
+                We've prepared a custom search to help you find the absolute best video explanations for this rule on YouTube.
+              </p>
+              
+              <button
+                onClick={handleYoutubeSearch}
+                className="w-full md:w-auto px-10 py-5 bg-red-600 text-white rounded-2xl font-black text-xl shadow-2xl shadow-red-200 hover:bg-red-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3"
+              >
+                <span>Search YouTube for me</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+              
+              <div className="pt-4 flex flex-wrap justify-center gap-4">
+                <span className="text-xs font-bold text-red-400 uppercase tracking-widest bg-white px-3 py-1 rounded-full border border-red-100">Top Rated Only</span>
+                <span className="text-xs font-bold text-red-400 uppercase tracking-widest bg-white px-3 py-1 rounded-full border border-red-100">Native Speakers</span>
+                <span className="text-xs font-bold text-red-400 uppercase tracking-widest bg-white px-3 py-1 rounded-full border border-red-100">Visual Aids</span>
+              </div>
             </div>
           </section>
 
